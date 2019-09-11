@@ -10,12 +10,12 @@
 
 $nomore = 0;set stop trigger
 While $nomore = 0 
-    $outPath = "C:\Users\gabri\OneDrive\Desktop\READ ME";select output folder
+    $outPath = "C:___________________________________";var for name of output folder
     Opt("WintitleMatchMode", 2)
     WinActivate("Google Chrome");activates Chrome window with top tab
-    Sleep(400)
-    $RawTabTitle = WinGetTitle("Google Chrome");grabs title of top tab (may need to be cleaned to save it)
-    $RegExNonStandard="(?i)([^a-z0-9-_])"
+	Sleep(400)
+	$RawTabTitle = WinGetTitle("Google Chrome");grabs title of top tab (may need to be cleaned to save it)
+	$RegExNonStandard="(?i)([^a-z0-9-_])"
     $TabTitle=StringRegExpReplace($RawTabTitle,$RegExNonStandard,"_")
     Send("^+p");select system print dialog (not Chrome's)
     If WinWaitActive("Print", "", 5) = 0 Then Exit;dumps out if something wrong (i know...)
@@ -26,22 +26,21 @@ While $nomore = 0
     Sleep(200)
     ControlFocus("Save Print Output As", "", "Edit1");focuses on Save As edit box
     Sleep(200)
-    Send($TabTitle & ".pdf");write the filename and path to Save As edit box
+	Send($outPath & $TabTitle & ".pdf");write the filename and path to Save As edit box
     Send("{ENTER}");saves into outPath
     Sleep(400)
     $wtext = WinGetText("Save Print Output As")
     If StringInStr($wtext, "already exists") Then
-    Sleep(1000)
-    Send("{Y");ENTER}");yes overwrite
+        Sleep(1000)
+        Send("{Y");ENTER}");yes overwrite
     EndIf
     Sleep(800)
-    Beep(450, 300)
-    WinActivate("Google Chrome");back to Chrome
+	WinActivate("Google Chrome");back to Chrome
     Send("^w");close already-printed tab, which exposes the next tab
-    If WinActive("Google Chrome")=0 Then
+	If WinActive("Google Chrome")=0 Then
         $nomore=1
-    EndIf;see if there are any more Chrome windows or tabs active; if not, then end While loop
-    Sleep(300)
+	EndIf;see if there are any more Chrome windows or tabs active; if not, then end While loop
+	Sleep(300)
 WEnd
 
 	
