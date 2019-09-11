@@ -1,6 +1,6 @@
-;for Windows and requires AutoIt scripting language (until you compile it)
-;replace ************** with actual save path
-;(c)2019 Gabriel Meister
+;ChromeSaver
+;(c)2019 Gabe Meister http://gabemeisterlaw.com/
+;Requires AutoIt Windows Scripting Language to use or compile
 
 #include <MsgBoxConstants.au3>
 #include <APIDlgConstants.au3>
@@ -8,25 +8,25 @@
 #include <WinAPIDlg.au3>
 #include <WinAPIMisc.au3>
 
-$nomore = 0
+$nomore = 0;set stop trigger
 While $nomore = 0 
-    $outPath = "C:**************";select output path and folder
+    $outPath = "C:\Users\gabri\OneDrive\Desktop\READ ME";select output folder
     Opt("WintitleMatchMode", 2)
-    WinActivate("Google Chrome")
+    WinActivate("Google Chrome");activates Chrome window with top tab
 	Sleep(400)
-	$TabTitle = WinGetTitle("Google Chrome")
-    Send("^+p");select traditional (i.e., non-Chrome-specific) print dialog
-    If WinWaitActive("Print", "", 5) = 0 Then Exit
-    ControlFocus("Print", "", "ComboBox1");select the printer list combo
+	$TabTitle = WinGetTitle("Google Chrome");grabs title of top tab
+    Send("^+p");select system print dialog (not Chrome's)
+    If WinWaitActive("Print", "", 5) = 0 Then Exit;dumps out if something wrong (i know...)
+    ControlFocus("Print", "", "ComboBox1");select printer list within dialog
     Send("Microsoft Print to PDF");this is the printer I want
     Send("{ENTER}");start printing
-    ConsoleWrite("Waiting for Save As" & @CRLF)
-    If WinWait("Save Print Output As", "", 5) = 0 Then Exit;because something bad happened
+    ConsoleWrite("Waiting for Save As" & @CRLF);user message
+    If WinWait("Save Print Output As", "", 5) = 0 Then Exit;somethin' really bad happened
     Sleep(200)
-    ControlFocus("Save Print Output As", "", "Edit1")
+    ControlFocus("Save Print Output As", "", "Edit1");focuses on Save As edit box
     Sleep(200)
-	Send($TabTitle & ".pdf");write the filename and path
-    Send("{ENTER}");start it saving
+	Send($TabTitle & ".pdf");write the filename and path to Save As edit box
+    Send("{ENTER}");saves into outPath
     Sleep(400)
     $wtext = WinGetText("Save Print Output As")
     If StringInStr($wtext, "already exists") Then
@@ -36,10 +36,10 @@ While $nomore = 0
     Sleep(2000)
     Beep(450, 300)
 	WinActivate("Google Chrome");back to Chrome
-    Send("^w");close that tab because it's printed and we'll do the next
+    Send("^w");close already-printed tab, which exposes the next tab
 	If WinActive("Google Chrome")=0 Then
         $nomore=1
-	EndIf 
+	EndIf;see if there are any more Chrome windows or tabs active; if not, then end While loop
 	Sleep(400)
 WEnd
 
