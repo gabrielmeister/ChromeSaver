@@ -1,6 +1,6 @@
 ;for Windows and requires AutoIt scripting language (until you compile it)
 ;replace ************** with actual save path
-;(c) 2019 Gabriel meister
+;(c)2019 Gabriel Meister
 
 #include <MsgBoxConstants.au3>
 #include <APIDlgConstants.au3>
