@@ -20,7 +20,6 @@ While $nomore = 0
     ControlFocus("Print", "", "ComboBox1");select printer list within dialog
     Send("Microsoft Print to PDF");this is the printer I want
     Send("{ENTER}");start printing
-    ConsoleWrite("Waiting for Save As" & @CRLF);user message
     If WinWait("Save Print Output As", "", 5) = 0 Then Exit;somethin' really bad happened
     Sleep(200)
     ControlFocus("Save Print Output As", "", "Edit1");focuses on Save As edit box
